@@ -1,0 +1,47 @@
+
+# App build products
+# Backups / OS cruft
+# Message archive (user data / local config, never commit)
+# Python / venv
+# Runtime state, snapshots, databases, logs
+# Secrets — never commit
+**/.secrets/
+**/.venv/
+**/MessageArchive/
+**/__pycache__/
+**/ai-config.json
+**/archive-config.json
+**/decrypted/
+**/exports/
+**/gateway-token
+**/image-key*.json
+**/key-capture/
+**/keys*.json
+**/snapshots/
+**/source-config.json
+**/state/
+**/web-token
+*.bak
+*.bak-*
+*.db
+*.db-*
+*.journal
+*.log
+*.py[cod]
+*.shm
+*.sqlite*
+*.wal
+.DS_Store
+app/build/
+app/dist/
+
+# Native binaries are built from source
+wechat-realtime-reader/bin/
+setup/wecom-keychain
+**/.pytest_cache/
+**/node_modules/
+
+# Frida binaries are fetched/verified at build/setup time, not committed
+**/vendor/frida/frida-inject-*
+**/vendor/frida/*.part
+**/vendor/frida/*.tmp

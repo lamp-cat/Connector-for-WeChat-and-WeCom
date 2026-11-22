@@ -1,0 +1,25 @@
+{
+  "packaged_source_files_checked": 44,
+  "artifacts": [
+    {
+      "path": "微信与企业微信聊天伴侣.dmg",
+      "bytes": 72292339
+    },
+    {
+      "path": "WeChatDesk-v2.0.1-dev.dmg",
+      "bytes": 72292339
+    },
+    {
+      "path": "微信与企业微信聊天伴侣.app/Contents/MacOS/WeChatDesk",
+      "bytes": 268640
+    },
+    {
+      "path": "微信与企业微信聊天伴侣.app/Contents/Resources/payload/setup/wecom-keychain",
+      "bytes": 62176
+    },
+    {
+      "path": "微信与企业微信聊天伴侣.app/Contents/Resources/payload/wechat-realtime-reader/bin/wechat-reader",
+      "bytes": 20524978
+    }
+  ]
+}
