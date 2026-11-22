@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="980" viewBox="0 0 1440 980">
+  <rect width="1440" height="980" fill="#ffffff"/>
+  <g font-family="Noto Sans SC, PingFang SC, sans-serif" fill="#162536">
+    <text x="60" y="72" font-size="34" font-weight="700">从外部聊天到内部协作</text>
+    <text x="60" y="113" font-size="21" fill="#536779">本机读取与分析已实现；飞书业务流程需要独立集成</text>
+    <line x1="982" y1="86" x2="1034" y2="86" stroke="#367d98" stroke-width="3"/>
+    <text x="1048" y="94" font-size="19">当前实现</text>
+    <line x1="1172" y1="86" x2="1224" y2="86" stroke="#96753a" stroke-width="3" stroke-dasharray="9 6"/>
+    <text x="1238" y="94" font-size="19">扩展方案</text>
+    <text x="60" y="166" font-size="20" font-weight="700" fill="#536779">消息来源</text>
+    <text x="350" y="166" font-size="20" font-weight="700" fill="#536779">独立快照与查询</text>
+    <text x="1040" y="166" font-size="20" font-weight="700" fill="#536779">数据使用</text>
+    <g stroke="#367d98" stroke-width="3" fill="none">
+      <polyline points="300,245 347,245"/>
+      <polyline points="300,445 347,445"/>
+      <polyline points="650,245 690,245 690,306 721,306"/>
+      <polyline points="650,445 690,445 690,384 721,384"/>
+      <polyline points="920,345 970,345 970,245 1037,245"/>
+      <polyline points="920,345 1037,345"/>
+      <polyline points="920,345 970,345 970,475 1037,475"/>
+    </g>
+    <g fill="#367d98">
+      <polygon points="350,245 340,239 340,251"/>
+      <polygon points="350,445 340,439 340,451"/>
+      <polygon points="724,306 714,300 714,312"/>
+      <polygon points="724,384 714,378 714,390"/>
+      <polygon points="1040,245 1030,239 1030,251"/>
+      <polygon points="1040,345 1030,339 1030,351"/>
+      <polygon points="1040,475 1030,469 1030,481"/>
+    </g>
+    <rect x="60" y="193" width="240" height="104" rx="18" fill="#eef5f7" stroke="#b6cbd4" stroke-width="2"/>
+    <rect x="60" y="393" width="240" height="104" rx="18" fill="#eef5f7" stroke="#b6cbd4" stroke-width="2"/>
+    <text x="180" y="235" text-anchor="middle" font-size="25" font-weight="700">个人微信</text>
+    <text x="180" y="270" text-anchor="middle" font-size="19" fill="#536779">本机加密数据库</text>
+    <text x="180" y="435" text-anchor="middle" font-size="25" font-weight="700">企业微信</text>
+    <text x="180" y="470" text-anchor="middle" font-size="19" fill="#536779">本机加密数据库</text>
+    <g fill="#f5f8fa" stroke="#789eaf" stroke-width="2">
+      <rect x="350" y="205" width="300" height="92"/>
+      <ellipse cx="500" cy="297" rx="150" ry="19"/>
+      <ellipse cx="500" cy="205" rx="150" ry="19"/>
+      <rect x="350" y="405" width="300" height="92"/>
+      <ellipse cx="500" cy="497" rx="150" ry="19"/>
+      <ellipse cx="500" cy="405" rx="150" ry="19"/>
+    </g>
+    <text x="500" y="250" text-anchor="middle" font-size="23" font-weight="700">Go 读取器</text>
+    <text x="500" y="271" text-anchor="middle" font-size="18" fill="#536779">文件监听 · 解密 · WAL</text>
+    <text x="500" y="450" text-anchor="middle" font-size="23" font-weight="700">Go 企业引擎</text>
+    <text x="500" y="471" text-anchor="middle" font-size="18" fill="#536779">message / session / user</text>
+    <circle cx="820" cy="345" r="111" fill="#eef5f7" stroke="#c9dce3" stroke-width="2"/>
+    <circle cx="820" cy="345" r="100" fill="#e1eef3" stroke="#367d98" stroke-width="3"/>
+    <text x="820" y="323" text-anchor="middle" font-size="25" font-weight="700">公共网关</text>
+    <text x="820" y="358" text-anchor="middle" font-size="21">FastAPI</text>
+    <text x="820" y="390" text-anchor="middle" font-size="18" fill="#536779">来源与账号隔离</text>
+    <text x="820" y="512" text-anchor="middle" font-size="19" fill="#536779">Swift App · 本机鉴权</text>
+    <rect x="1040" y="193" width="340" height="104" rx="18" fill="#f5f8fa" stroke="#b6cbd4" stroke-width="2"/>
+    <text x="1210" y="235" text-anchor="middle" font-size="24" font-weight="700">浮窗与会话 AI</text>
+    <text x="1210" y="270" text-anchor="middle" font-size="18" fill="#536779">选定文本 → 配置的模型接口</text>
+    <rect x="1040" y="313" width="340" height="64" rx="18" fill="#f5f8fa" stroke="#b6cbd4" stroke-width="2"/>
+    <text x="1210" y="354" text-anchor="middle" font-size="24" font-weight="700">只读 MCP 工具</text>
+    <rect x="1040" y="423" width="340" height="104" rx="18" fill="#f5f8fa" stroke="#b6cbd4" stroke-width="2"/>
+    <text x="1210" y="465" text-anchor="middle" font-size="24" font-weight="700">本机归档</text>
+    <text x="1210" y="500" text-anchor="middle" font-size="18" fill="#536779">SQLite + Markdown</text>
+    <text x="60" y="575" font-size="20" fill="#536779">原库只读；快照内合并已提交 WAL；AI 使用导出的文本</text>
+    <line x1="60" y1="616" x2="1380" y2="616" stroke="#d4dde2" stroke-width="2"/>
+    <text x="60" y="672" font-size="25" font-weight="700">飞书扩展：授权后将候选事项进入内部流程</text>
+    <polyline points="1040,345 1005,345 1005,693 330,693 330,714" fill="none" stroke="#96753a" stroke-width="3" stroke-dasharray="9 6"/>
+    <polygon points="330,718 324,708 336,708" fill="#96753a"/>
+    <rect x="170" y="718" width="320" height="120" rx="18" fill="#faf7f0" stroke="#96753a" stroke-width="2" stroke-dasharray="9 6"/>
+    <text x="330" y="764" text-anchor="middle" font-size="24" font-weight="700">授权 Agent</text>
+    <text x="330" y="800" text-anchor="middle" font-size="19" fill="#675f4b">读消息 + 对照飞书资料</text>
+    <rect x="615" y="718" width="320" height="120" rx="18" fill="#faf7f0" stroke="#96753a" stroke-width="2" stroke-dasharray="9 6"/>
+    <text x="775" y="764" text-anchor="middle" font-size="24" font-weight="700">字段映射与人工复核</text>
+    <text x="775" y="800" text-anchor="middle" font-size="19" fill="#675f4b">项目 · 人员 · 期限 · 原文依据</text>
+    <rect x="1060" y="718" width="320" height="120" rx="18" fill="#faf7f0" stroke="#96753a" stroke-width="2" stroke-dasharray="9 6"/>
+    <text x="1220" y="764" text-anchor="middle" font-size="24" font-weight="700">飞书业务对象</text>
+    <text x="1220" y="800" text-anchor="middle" font-size="19" fill="#675f4b">任务 · 多维表格 · 文档</text>
+    <line x1="490" y1="778" x2="612" y2="778" stroke="#96753a" stroke-width="3" stroke-dasharray="9 6"/>
+    <polygon points="615,778 605,772 605,784" fill="#96753a"/>
+    <line x1="935" y1="778" x2="1057" y2="778" stroke="#96753a" stroke-width="3" stroke-dasharray="9 6"/>
+    <polygon points="1060,778 1050,772 1050,784" fill="#96753a"/>
+    <text x="60" y="900" font-size="20" fill="#675f4b">扩展条件：飞书接口权限、目标资源权限、业务身份映射与记录去重</text>
+    <text x="60" y="938" font-size="19" fill="#536779">当前不包含飞书自动写入或逐条消息自动分析；实线功能仍需真实账号与真实模型验收</text>
+  </g>
+</svg>

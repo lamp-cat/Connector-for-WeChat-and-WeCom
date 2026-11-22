@@ -78,7 +78,7 @@ def readers(isolated, monkeypatch):
 
 @pytest.fixture
 def snapshot_engine(tmp_path):
-    from app.sources.wecom_engine.demo_fixture import prepare
+    from reference_wecom.demo_fixture import prepare
     folder = prepare(tmp_path)
     return SimpleNamespace(account="account-A", current=folder, chosen=None, updated=1,
                            signature="fixture-1", guard=threading.RLock())

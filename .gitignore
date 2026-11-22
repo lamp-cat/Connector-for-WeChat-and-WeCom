@@ -38,6 +38,7 @@ app/dist/
 # Native binaries are built from source
 wechat-realtime-reader/bin/
 setup/wecom-keychain
+setup/wecom-runtime
 **/.pytest_cache/
 **/node_modules/
 

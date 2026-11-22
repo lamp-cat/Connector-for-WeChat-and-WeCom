@@ -32,7 +32,9 @@ def main():
     version = (payload / "VERSION").read_text().strip()
     installed = (root / "VERSION").read_text().strip() if (root / "VERSION").exists() else ""
     updated = payload.resolve() != root.resolve() and installed != version
-    if payload.resolve() != root.resolve() and (updated or not (root / "setup/wecom-keychain").is_file()):
+    if payload.resolve() != root.resolve() and (updated or not (root / "setup/wecom-keychain").is_file()
+            or not (root / "setup/wecom-runtime").is_file()
+            or not (root / "wechat-realtime-reader/bin/wecom-reader").is_file()):
         root.mkdir(parents=True, exist_ok=True)
         for name in ("wechat-realtime-reader", "wechat-frontend", "setup"):
             (root / name).mkdir(exist_ok=True)
@@ -42,6 +44,11 @@ def main():
     if not (root / "setup/wecom-keychain").is_file():
         run(["/usr/bin/swiftc", "-O", "-target", "arm64-apple-macos13.0", "-framework", "Security", str(root / "setup/wecom-keychain.swift"),
              "-o", str(root / "setup/wecom-keychain")])
+    if not (root / "setup/wecom-runtime").is_file():
+        run(["/usr/bin/swiftc", "-O", "-target", "arm64-apple-macos13.0", str(root / "setup/wecom-runtime.swift"),
+             "-o", str(root / "setup/wecom-runtime")])
+    if not (root / "wechat-realtime-reader/bin/wecom-reader").is_file():
+        run(["go", "build", "-o", "bin/wecom-reader", "./cmd/wecom-reader"], cwd=root / "wechat-realtime-reader")
     print(f"@@root\t{root}", flush=True)
     step("runtime", "ok", f"共用运行时 {version} 已就绪")
     frontend = root / "wechat-frontend"
@@ -49,7 +56,7 @@ def main():
     python = venv / "bin/python"
     req_hash = hashlib.sha256((frontend / "requirements.txt").read_bytes()).hexdigest()
     marker = venv / ".wd-req"
-    step("python", "run", "准备网关与企业快照依赖")
+    step("python", "run", "准备公共网关依赖")
     if not python.is_file():
         run([sys.executable, "-m", "venv", str(venv)])
     if not marker.is_file() or marker.read_text().strip() != req_hash:
@@ -58,7 +65,7 @@ def main():
         with (logs / "dependency-install.log").open("w") as log:
             run([str(python), "-m", "pip", "install", "--disable-pip-version-check",
                  "--progress-bar", "off", "-r", str(frontend / "requirements.txt")], stdout=log, stderr=log)
-        run([str(python), "-c", "import fastapi, uvicorn, httpx, Crypto, frida"])
+        run([str(python), "-c", "import fastapi, uvicorn, httpx"])
         marker.write_text(req_hash + "\n")
     step("python", "ok", "公共环境已就绪；个人微信无需预先登录")
     config = user_dir / ".config/wechat-frontend"

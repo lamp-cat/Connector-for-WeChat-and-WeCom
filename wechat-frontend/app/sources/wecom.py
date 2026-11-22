@@ -4,7 +4,6 @@ import asyncio
 import json
 import os
 import re
-import sys
 import uuid
 from pathlib import Path
 
@@ -38,9 +37,12 @@ class WeComReader:
             self.account_id = None
             self.runtime_ready = False
             self.managed_pid = None
+            root = Path(os.environ.get("WF_PLATFORM_ROOT", Path(__file__).resolve().parents[3]))
+            binary = root / "wechat-realtime-reader/bin/wecom-reader"
+            if not binary.is_file():
+                raise ReaderError(503, "企业微信 Go 读取器缺失，请先构建统一版")
             self.process = await asyncio.create_subprocess_exec(
-                sys.executable, "-m", "app.sources.wecom_engine.bridge",
-                cwd=str(Path(__file__).resolve().parents[2]),
+                str(binary), cwd=str(root), env=dict(os.environ, WF_PLATFORM_ROOT=str(root)),
                 stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.DEVNULL, limit=64 * 1024 * 1024)
             self.worker = asyncio.create_task(self._events(self.process))

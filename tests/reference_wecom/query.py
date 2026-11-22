@@ -1,4 +1,4 @@
-"""Queries over the validated three-database snapshot; never opens source databases."""
+"""Former Python query contract, retained only as a differential test oracle."""
 from __future__ import annotations
 
 import base64

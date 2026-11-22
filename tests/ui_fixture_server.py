@@ -18,8 +18,8 @@ from app import archive, main, sidebar, suggest, config_api
 from app.settings import settings
 from app.reader_client import personal_reader
 from app.sources.wecom import wecom
-from app.sources.wecom_engine.demo_fixture import prepare
-from app.sources.wecom_engine.query import query
+from reference_wecom.demo_fixture import prepare
+from go_wecom import query
 
 settings.config_path.parent.mkdir(parents=True, exist_ok=True)
 for name in ("gateway_token_file", "reader_token_file", "ai_config_file", "ui_config_file"):

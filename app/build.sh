@@ -17,11 +17,14 @@ mkdir -p "$BUILD" "$DIST"
 echo "==> compile"
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 if command -v go >/dev/null 2>&1; then
-  (cd "$REPO/wechat-realtime-reader" && go build -o bin/wechat-reader ./cmd/wechat-reader)
+  (cd "$REPO/wechat-realtime-reader" && go build -o bin/wechat-reader ./cmd/wechat-reader &&
+    go build -o bin/wecom-reader ./cmd/wecom-reader)
 fi
 [[ -x "$REPO/wechat-realtime-reader/bin/wechat-reader" ]] || { echo "缺少读取器，请安装 Go 并构建"; exit 1; }
+[[ -x "$REPO/wechat-realtime-reader/bin/wecom-reader" ]] || { echo "缺少企业微信读取器，请安装 Go 并构建"; exit 1; }
 swiftc -O -target arm64-apple-macos13.0 -framework Cocoa -framework WebKit src/main.swift -o "$BUILD/WeChatDesk"
 swiftc -O -target arm64-apple-macos13.0 -framework Security "$REPO/setup/wecom-keychain.swift" -o "$REPO/setup/wecom-keychain"
+swiftc -O -target arm64-apple-macos13.0 "$REPO/setup/wecom-runtime.swift" -o "$REPO/setup/wecom-runtime"
 
 echo "==> icon"
 swiftc -O src/makeicon.swift -o "$BUILD/makeicon"
@@ -68,7 +71,9 @@ echo "$VERSION" > "$P/VERSION"
 # reader: binary + skills (for key capture) + go.mod (for module path awareness)
 mkdir -p "$P/wechat-realtime-reader/bin" "$P/wechat-realtime-reader/skills"
 cp "$PAYLOAD_SRC/wechat-realtime-reader/bin/wechat-reader" "$P/wechat-realtime-reader/bin/"
+cp "$PAYLOAD_SRC/wechat-realtime-reader/bin/wecom-reader" "$P/wechat-realtime-reader/bin/"
 chmod +x "$P/wechat-realtime-reader/bin/wechat-reader"
+chmod +x "$P/wechat-realtime-reader/bin/wecom-reader"
 rsync -a --delete --exclude '__pycache__' --exclude '*.part' --exclude '*.tmp' "$PAYLOAD_SRC/wechat-realtime-reader/skills/" "$P/wechat-realtime-reader/skills/"
 xattr -cr "$P/wechat-realtime-reader/skills/wechat-db-keys/vendor/frida" 2>/dev/null || true
 # frontend: python sources + scripts + requirements (venv is created on first launch)
@@ -81,6 +86,7 @@ chmod +x "$P/wechat-frontend/scripts/"*.sh
 mkdir -p "$P/setup"
 cp "$PAYLOAD_SRC/setup/"*.sh "$P/setup/"
 cp "$PAYLOAD_SRC/setup/"*.py "$PAYLOAD_SRC/setup/wecom-keychain" "$PAYLOAD_SRC/setup/wecom-keychain.swift" "$P/setup/"
+cp "$PAYLOAD_SRC/setup/wecom-runtime" "$PAYLOAD_SRC/setup/wecom-runtime.swift" "$P/setup/"
 chmod +x "$P/setup/"*.sh
 
 echo "==> sign (ad-hoc)"

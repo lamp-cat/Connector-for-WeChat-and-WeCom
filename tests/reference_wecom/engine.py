@@ -1,4 +1,4 @@
-"""Local companion engine. NDJSON over inherited pipes; no network listener."""
+"""Frozen Python reference for differential migration tests; never bundled or launched."""
 from __future__ import annotations
 
 import hashlib
@@ -18,7 +18,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 from Crypto.Cipher import AES
-from .ai_service import AIService, AIError
+AIError = ValueError  # AI remains in the shared gateway; the oracle tests only reading.
 
 DB_NAMES = ("message.db", "session.db", "user.db")
 MAGIC = b"SQLite format 3\0"

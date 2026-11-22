@@ -10,7 +10,7 @@ from app import archive, main, mcp_api
 from app.reader_client import ReaderError
 from app.sources import registry
 from app.sources.api import selections
-from app.sources.wecom_engine.query import query
+from go_wecom import query
 
 
 def insert(engine, rows, table="message_table"):

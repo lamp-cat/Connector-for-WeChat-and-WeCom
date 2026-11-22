@@ -1,0 +1,23 @@
+{
+  "version": "2.0.2-dev",
+  "date": "2026-11-22",
+  "platform": "darwin/arm64, macOS 13+",
+  "python_contract_tests": 39,
+  "go_engine_test_groups": 9,
+  "go_race": "passed",
+  "go_full_suite": "passed",
+  "go_vet": "passed",
+  "node_config_checks": "passed",
+  "native_suspended_spawn_synthetic": "passed",
+  "app_codesign": "passed",
+  "dmg_verify": "passed",
+  "packaged_go_pipe_synthetic": "passed",
+  "python_reader_in_payload": false,
+  "production_python_crypto_frida_dependencies": false,
+  "sha256": {
+    "微信与企业微信聊天伴侣.dmg": "3fd8d57ea19562480ef209a92e1e6bbbebdb31303db52125e4f688baf25e52f0",
+    "WeChatDesk-v2.0.2-dev.dmg": "3fd8d57ea19562480ef209a92e1e6bbbebdb31303db52125e4f688baf25e52f0"
+  },
+  "live_account_and_key_capture": "not tested",
+  "live_model_and_agent": "not tested"
+}

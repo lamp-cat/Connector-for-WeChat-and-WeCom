@@ -4,5 +4,3 @@ httpx==0.28.1
 pydantic==2.10.4
 python-multipart==0.0.20
 tomli>=2.0; python_version < "3.11"
-pycryptodome>=3.23.0
-frida>=17.5.1,<18

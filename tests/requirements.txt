@@ -1,0 +1,4 @@
+# Only the frozen Python oracle needs Crypto; production reads messages in Go.
+pytest
+pytest-asyncio
+pycryptodome>=3.23.0
