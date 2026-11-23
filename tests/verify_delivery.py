@@ -1,11 +1,12 @@
 """Check packaged source consistency and generate hashes after app/build.sh."""
 import hashlib
 import json
+import plistlib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / "app/dist"
-APP = DIST / "微信与企业微信聊天伴侣.app"
+APP = DIST / "微信-企微连接器.app"
 PAYLOAD = APP / "Contents/Resources/payload"
 checked = 0
 
@@ -23,10 +24,18 @@ for base in (ROOT / "wechat-frontend", ROOT / "setup"):
 
 assert (ROOT / "VERSION").read_text().strip() == (PAYLOAD / "VERSION").read_text().strip()
 version = (ROOT / "VERSION").read_text().strip()
-artifacts = [DIST / "微信与企业微信聊天伴侣.dmg", DIST / f"WeChatDesk-v{version}.dmg",
-             APP / "Contents/MacOS/WeChatDesk",
+with (APP / "Contents/Info.plist").open("rb") as stream:
+    info = plistlib.load(stream)
+assert info["CFBundleName"] == info["CFBundleDisplayName"] == "微信/企微连接器"
+assert info["CFBundleExecutable"] == "WeChatWeComConnector"
+assert info["CFBundleIdentifier"] == "com.gly.wechatdesk"
+assert info["CFBundleShortVersionString"] == version
+artifacts = [DIST / "微信-企微连接器.dmg", DIST / f"WeChatWeComConnector-v{version}.dmg",
+             APP / "Contents/MacOS/WeChatWeComConnector",
              PAYLOAD / "setup/wecom-keychain",
-             PAYLOAD / "wechat-realtime-reader/bin/wechat-reader"]
+             PAYLOAD / "setup/wecom-runtime",
+             PAYLOAD / "wechat-realtime-reader/bin/wechat-reader",
+             PAYLOAD / "wechat-realtime-reader/bin/wecom-reader"]
 lines = []
 for path in artifacts:
     digest = hashlib.sha256()

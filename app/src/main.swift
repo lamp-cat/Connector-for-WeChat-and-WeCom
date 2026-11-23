@@ -1,4 +1,4 @@
-// 消息工作台 — native macOS shell for the local, receive-only WeChat helper.
+// 微信/企微连接器 — native macOS shell for local, receive-only message analysis.
 // First launch: auto-locate WeChat data, reuse/acquire keys, start services, register MCP into local agent tools.
 // Receive-only: this app has no way to send WeChat messages. Tokens/keys are never logged.
 import Cocoa
@@ -128,7 +128,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         buildMenu(); buildStatusItem()
         window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 520, height: 720),
                           styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
-        window.title = "消息工作台"
+        window.title = "微信/企微连接器"
         window.minSize = NSSize(width: 400, height: 520)
         window.setFrameAutosaveName("SidebarMainWindow")
         if window.frame.origin == .zero { window.center() }
@@ -407,15 +407,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         let main = NSMenu()
         let appItem = NSMenuItem(); main.addItem(appItem)
         let appMenu = NSMenu()
-        appMenu.addItem(withTitle: "关于 消息工作台", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
+        appMenu.addItem(withTitle: "关于 微信/企微连接器", action: #selector(NSApplication.orderFrontStandardAboutPanel(_:)), keyEquivalent: "")
         appMenu.addItem(.separator())
         appMenu.addItem(withTitle: "设置…", action: #selector(openSettings), keyEquivalent: ",")
         appMenu.addItem(withTitle: "重新运行首次配置…", action: #selector(rerunSetup), keyEquivalent: "")
         appMenu.addItem(.separator())
-        appMenu.addItem(withTitle: "隐藏 消息工作台", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
+        appMenu.addItem(withTitle: "隐藏 微信/企微连接器", action: #selector(NSApplication.hide(_:)), keyEquivalent: "h")
         appMenu.addItem(.separator())
         appMenu.addItem(withTitle: "退出并停止后台服务", action: #selector(quitAndStop), keyEquivalent: "")
-        appMenu.addItem(withTitle: "退出 消息工作台", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        appMenu.addItem(withTitle: "退出 微信/企微连接器", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         appItem.submenu = appMenu
 
         let editItem = NSMenuItem(); main.addItem(editItem)
@@ -431,8 +431,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
 
         let viewItem = NSMenuItem(); main.addItem(viewItem)
         let view = NSMenu(title: "视图")
-        view.addItem(withTitle: "伴侣浮窗", action: #selector(openSidebarInMain), keyEquivalent: "2")
-        view.addItem(withTitle: "伴侣浮窗（置顶小窗）", action: #selector(togglePanel), keyEquivalent: "3")
+        view.addItem(withTitle: "连接器浮窗", action: #selector(openSidebarInMain), keyEquivalent: "2")
+        view.addItem(withTitle: "连接器浮窗（置顶小窗）", action: #selector(togglePanel), keyEquivalent: "3")
         view.addItem(withTitle: "设置", action: #selector(openSettings), keyEquivalent: "")
         view.addItem(.separator())
         view.addItem(withTitle: "重新加载", action: #selector(reloadPage), keyEquivalent: "r")
@@ -451,14 +451,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
     func buildStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let b = statusItem.button {
-            if let img = NSImage(systemSymbolName: "bubble.left.and.text.bubble.right", accessibilityDescription: "消息工作台") {
+            if let img = NSImage(systemSymbolName: "bubble.left.and.text.bubble.right", accessibilityDescription: "微信/企微连接器") {
                 img.isTemplate = true; b.image = img
             } else { b.title = "微" }
         }
         let m = NSMenu()
         m.addItem(withTitle: "显示/隐藏主窗口", action: #selector(toggleWindow), keyEquivalent: "")
-        m.addItem(withTitle: "伴侣浮窗", action: #selector(openSidebarInMain), keyEquivalent: "")
-        m.addItem(withTitle: "伴侣浮窗（置顶小窗）", action: #selector(togglePanel), keyEquivalent: "")
+        m.addItem(withTitle: "连接器浮窗", action: #selector(openSidebarInMain), keyEquivalent: "")
+        m.addItem(withTitle: "连接器浮窗（置顶小窗）", action: #selector(togglePanel), keyEquivalent: "")
         m.addItem(withTitle: "设置…", action: #selector(openSettings), keyEquivalent: "")
         m.addItem(.separator())
         m.addItem(withTitle: "重启后台服务", action: #selector(restartBackend), keyEquivalent: "")
@@ -500,7 +500,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         if panel == nil {
             let p = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 400, height: 780),
                             styleMask: [.titled, .closable, .resizable, .utilityWindow], backing: .buffered, defer: false)
-            p.title = "伴侣浮窗"; p.level = .floating; p.isFloatingPanel = true
+            p.title = "微信/企微连接器 · 浮窗"; p.level = .floating; p.isFloatingPanel = true
             p.hidesOnDeactivate = false
             p.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
             p.setFrameAutosaveName("CompanionPanel")
@@ -673,7 +673,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
     func allowWecomDirectory() {
         let panel = NSOpenPanel(); panel.canChooseFiles = false; panel.canChooseDirectories = true
         panel.allowsMultipleSelection = false; panel.prompt = "允许读取"
-        panel.message = "允许聊天伴侣读取企业微信的本机数据目录"
+        panel.message = "允许微信/企微连接器读取企业微信的本机数据目录"
         panel.directoryURL = URL(fileURLWithPath: "\(HOME)/Library/Containers/com.tencent.WeWorkMac/Data")
         if panel.runModal() == .OK, let url = panel.url {
             _ = url.startAccessingSecurityScopedResource()

@@ -1,4 +1,4 @@
-"""Sidebar helper (伴侣浮窗): active-chat estimate + AI history summary. Read-only, no send path."""
+"""连接器浮窗: active-chat estimate + AI history summary. Read-only, no send path."""
 from __future__ import annotations
 
 import asyncio

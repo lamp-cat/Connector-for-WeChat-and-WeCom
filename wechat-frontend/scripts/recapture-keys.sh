@@ -66,8 +66,10 @@ ditto --noextattr --noqtn "$APP" "$capture_work/WeChat.app" || pause_exit 1
 codesign --force --deep --sign - --entitlements "$SKILL/references/capture-entitlements.plist" "$capture_work/WeChat.app" || pause_exit 1
 codesign --verify --deep --strict "$capture_work/WeChat.app" || pause_exit 1
 # Frida：优先用内置的 frida-inject（无需 pip / 联网），其次本机已有的 frida；都没有才从 GitHub 官方 Release 下载并校验
-APP_VENDOR="/Applications/微信与企业微信聊天伴侣.app/Contents/Resources/payload/wechat-realtime-reader/skills/wechat-db-keys/vendor/frida"
-export WD_FRIDA_VENDOR_DIRS="$SKILL/vendor/frida:$HOME/.local/share/wechatdesk/runtime/wechat-realtime-reader/skills/wechat-db-keys/vendor/frida:$APP_VENDOR"
+APP_VENDOR="/Applications/微信-企微连接器.app/Contents/Resources/payload/wechat-realtime-reader/skills/wechat-db-keys/vendor/frida"
+# Legacy installations remain valid during an upgrade.
+LEGACY_APP_VENDOR="/Applications/微信与企业微信聊天伴侣.app/Contents/Resources/payload/wechat-realtime-reader/skills/wechat-db-keys/vendor/frida"
+export WD_FRIDA_VENDOR_DIRS="$SKILL/vendor/frida:$HOME/.local/share/wechatdesk/runtime/wechat-realtime-reader/skills/wechat-db-keys/vendor/frida:$APP_VENDOR:$LEGACY_APP_VENDOR"
 PY=""
 for c in /usr/bin/python3 /opt/homebrew/bin/python3 /usr/local/bin/python3; do
   [[ "$c" == /usr/bin/python3 ]] && ! xcode-select -p >/dev/null 2>&1 && continue

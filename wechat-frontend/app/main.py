@@ -29,9 +29,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("wechat-frontend")
 
 app = FastAPI(
-    title="消息工作台 Gateway",
+    title="微信/企微连接器 Gateway",
     description="Receive-only gateway over local wechat-realtime-reader. No send path.",
-    version="2.0.2-dev",
+    version="2.0.3-dev",
     docs_url=None,
     redoc_url=None,
     openapi_url=None,
@@ -125,9 +125,9 @@ async def login_page(next: Optional[str] = None):
     import html as _html
     nxt = _html.escape(_safe_next(next), quote=True)
     html = (
-        "<!doctype html><meta charset=\"utf-8\"><title>登录 消息助手</title>"
+        "<!doctype html><meta charset=\"utf-8\"><title>登录 微信/企微连接器</title>"
         "<body style=\"font:15px system-ui;padding:40px;max-width:520px;color:#222\">"
-        "<h2>消息助手</h2>"
+        "<h2>微信/企微连接器</h2>"
         "<p>粘贴网关令牌（文件 <code>~/.config/wechat-frontend/gateway-token</code>）。"
         "令牌仅写入本机 HttpOnly Cookie。</p>"
         "<form method=\"post\" action=\"/auth/session\">"

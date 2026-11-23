@@ -58,7 +58,9 @@ class Settings:
         origins = raw.get("cors_origins", ["*"])
         self.cors_origins: List[str] = list(origins) if isinstance(origins, list) else ["*"]
         self.require_auth_on_loopback: bool = bool(raw.get("require_auth_on_loopback", True))
-        self.title: str = str(raw.get("title", "消息工作台"))
+        self.title: str = str(raw.get("title", "微信/企微连接器"))
+        if self.title in ("消息工作台", "消息助手", "聊天伴侣", "微信与企业微信聊天伴侣"):
+            self.title = "微信/企微连接器"
 
     @property
     def reader_token(self) -> str:

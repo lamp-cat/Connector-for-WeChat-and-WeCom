@@ -1,4 +1,4 @@
-/* 伴侣浮窗 — read-only companion panel. Drafts only; there is NO send path in this file. */
+/* 连接器浮窗 — read-only analysis panel. Drafts only; there is NO send path in this file. */
 (() => {
   const POLL_MS = 4000;
   const SESSIONS_MS = 30000;

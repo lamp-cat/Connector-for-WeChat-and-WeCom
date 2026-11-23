@@ -1,20 +1,26 @@
-# 微信与企业微信聊天伴侣
+# 微信/企微连接器
 
-同一个 macOS App 内切换「个人微信」和「企业微信」，共用 AI 服务、设置页、鉴权与浮窗。两种来源都支持只读 MCP 和本机消息归档。当前版本：`2.0.2-dev`，两种消息读取引擎均使用 Go。
+读取个人微信和企业微信的本机消息数据，帮助团队在豆包与飞书生态中开展消息分析。当前支持本机检索、归档、会话 AI 分析和只读 MCP；豆包工作提供接入检测与手动配置指引，飞书任务或台账写回仍属于扩展能力。
+
+同一个 macOS App 内切换「个人微信」和「企业微信」，共用 AI 服务、设置页、鉴权与浮窗。两种来源都支持只读 MCP 和本机消息归档。当前版本：`2.0.3-dev`，两种消息读取引擎均使用 Go。
 
 统一版仓库：[lamp-cat/Connector-for-WeChat-and-WeCom](https://github.com/lamp-cat/Connector-for-WeChat-and-WeCom)。个人版基线为 [lamp-cat/wechat-secretary](https://github.com/lamp-cat/wechat-secretary) 的 `6653024325c3cf033bc6179a6af05fd15a20c3e0`；企业版基线为 [lamp-cat/Corporate-WeChat-Secretary](https://github.com/lamp-cat/Corporate-WeChat-Secretary) 的 `0b7cb53082f0f5302ac66c12c388cdc861ddf869`。统一版以独立仓库维护，保留两版上游来源。
 
 ## 打开新版
 
+下载开发预览版：[微信/企微连接器 v2.0.3-dev](https://github.com/lamp-cat/Connector-for-WeChat-and-WeCom/releases/tag/v2.0.3-dev)。
+
 从仓库获取源码后，先按下方「开发与验证」构建，安装包会生成在 `app/dist/`。
 
-1. 打开 `app/dist/微信与企业微信聊天伴侣.dmg`，将 App 拖入「应用程序」；开发时也可直接打开 `app/dist/微信与企业微信聊天伴侣.app`。
+1. 打开 `app/dist/微信-企微连接器.dmg`，将 App 拖入「应用程序」；开发时也可直接打开 `app/dist/微信-企微连接器.app`。产品展示名为「微信/企微连接器」，文件名以连字符代替路径分隔符 `/`。
 2. 首次启动准备公共 Python 环境和网关，无需先连接个人微信。首次安装依赖需要联网。
 3. 在浮窗或设置页选择来源。个人微信沿用原有读取器配置；尚未连接时，通过设置页初始化。企业微信通过「首次连接企业微信…」连接。
 4. 在「AI 服务」配置兼容 OpenAI 的 Base URL、API Key、模型。两种来源使用同一套配置。
 5. 按需开启当前账号的归档。企业微信 MCP 需要在当前来源设置页单独授权，再登记到 agent 工具。
 
 App 支持 Apple Silicon、macOS 13 及以上。安装包使用本机临时签名，尚未进行 Developer ID 签名和 Apple 公证。真实账号连接与真实模型质量尚未验收，详见 [开发与验证报告](docs/开发与验证报告.md)。
+
+新名称的产品界面：[个人微信浮窗](docs/产品截图/01-个人微信浮窗.png) · [企业微信总结与草稿](docs/产品截图/02-企业微信总结与草稿.png)。截图使用合成消息和 AI 测试替身；本轮检查见 [命名更新与验证](docs/命名更新与验证.md)。
 
 ## 已整合的能力
 
@@ -114,6 +120,6 @@ go build -o bin/wecom-reader ./cmd/wecom-reader
 
 `tests/ui_fixture_server.py` 可在 `127.0.0.1:18088` 启动合成聊天验收环境，测试令牌为 `ui-fixture-login`。该入口不会访问真实客户端、钥匙串或 launchd；不能用于真实账号。正常应用入口仍为打包后的 App。
 
-构建会生成 `.app`、中文文件名 DMG 及 `WeChatDesk-v2.0.2-dev.dmg`，同时内嵌个人与企业 Go 二进制。Frida 官方独立工具的固定版本和 SHA-256 校验沿用个人版；首次源码构建会下载，许可证及来源位于 `wechat-realtime-reader/skills/wechat-db-keys/vendor/frida/`。旧 Python 读取实现仅作为 `tests/reference_wecom/` 中的对照样本保留，不进入安装包。测试前须构建企业 Go 二进制和原生 helper（执行 `bash app/build.sh`）。
+构建会生成 `.app`、中文文件名 DMG 及 `WeChatWeComConnector-v2.0.3-dev.dmg`，同时内嵌个人与企业 Go 二进制。Frida 官方独立工具的固定版本和 SHA-256 校验沿用个人版；首次源码构建会下载，许可证及来源位于 `wechat-realtime-reader/skills/wechat-db-keys/vendor/frida/`。旧 Python 读取实现仅作为 `tests/reference_wecom/` 中的对照样本保留，不进入安装包。测试前须构建企业 Go 二进制和原生 helper（执行 `bash app/build.sh`）。
 
 目录说明及实现边界见 [开发与验证报告](docs/开发与验证报告.md)，更新记录见 [CHANGELOG.md](CHANGELOG.md)。

@@ -1,17 +1,19 @@
 #!/bin/bash
-# Build 消息工作台.app (+ .dmg). Needs Xcode Command Line Tools (swiftc).
+# Build 微信-企微连接器.app (+ .dmg). Needs Xcode Command Line Tools (swiftc).
 # Embeds wechat-realtime-reader + wechat-frontend + setup/ into Contents/Resources/payload
 # so a downloaded .app is self-contained (zero-config on first launch).
 set -euo pipefail
 cd "$(dirname "$0")"
-APP_NAME="微信与企业微信聊天伴侣"
+APP_NAME="微信-企微连接器"
+DISPLAY_NAME="微信/企微连接器"
+EXECUTABLE="WeChatWeComConnector"
 BUNDLE_ID="com.gly.wechatdesk"
 VERSION="${WD_VERSION:-$(tr -d '\n' < ../VERSION)}"
 BUILD="build"; DIST="dist"
 APP="$DIST/$APP_NAME.app"
 REPO="$(cd .. && pwd)"
 PAYLOAD_SRC="$REPO"
-rm -rf "$BUILD" "$APP" "$DIST/$APP_NAME.dmg" "$DIST/WeChatDesk-v${VERSION}.dmg"
+rm -rf "$BUILD" "$APP" "$DIST/$APP_NAME.dmg" "$DIST/WeChatWeComConnector-v${VERSION}.dmg"
 mkdir -p "$BUILD" "$DIST"
 
 echo "==> compile"
@@ -22,7 +24,7 @@ if command -v go >/dev/null 2>&1; then
 fi
 [[ -x "$REPO/wechat-realtime-reader/bin/wechat-reader" ]] || { echo "缺少读取器，请安装 Go 并构建"; exit 1; }
 [[ -x "$REPO/wechat-realtime-reader/bin/wecom-reader" ]] || { echo "缺少企业微信读取器，请安装 Go 并构建"; exit 1; }
-swiftc -O -target arm64-apple-macos13.0 -framework Cocoa -framework WebKit src/main.swift -o "$BUILD/WeChatDesk"
+swiftc -O -target arm64-apple-macos13.0 -framework Cocoa -framework WebKit src/main.swift -o "$BUILD/$EXECUTABLE"
 swiftc -O -target arm64-apple-macos13.0 -framework Security "$REPO/setup/wecom-keychain.swift" -o "$REPO/setup/wecom-keychain"
 swiftc -O -target arm64-apple-macos13.0 "$REPO/setup/wecom-runtime.swift" -o "$REPO/setup/wecom-runtime"
 
@@ -33,16 +35,16 @@ iconutil -c icns "$BUILD/AppIcon.iconset" -o "$BUILD/AppIcon.icns"
 
 echo "==> bundle skeleton"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
-cp "$BUILD/WeChatDesk" "$APP/Contents/MacOS/WeChatDesk"
+cp "$BUILD/$EXECUTABLE" "$APP/Contents/MacOS/$EXECUTABLE"
 cp "$BUILD/AppIcon.icns" "$APP/Contents/Resources/AppIcon.icns"
 cat > "$APP/Contents/Info.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0"><dict>
-  <key>CFBundleName</key><string>$APP_NAME</string>
-  <key>CFBundleDisplayName</key><string>$APP_NAME</string>
+  <key>CFBundleName</key><string>$DISPLAY_NAME</string>
+  <key>CFBundleDisplayName</key><string>$DISPLAY_NAME</string>
   <key>CFBundleIdentifier</key><string>$BUNDLE_ID</string>
-  <key>CFBundleExecutable</key><string>WeChatDesk</string>
+  <key>CFBundleExecutable</key><string>$EXECUTABLE</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>$VERSION</string>
@@ -50,7 +52,7 @@ cat > "$APP/Contents/Info.plist" <<PLIST
   <key>LSMinimumSystemVersion</key><string>13.0</string>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSPrincipalClass</key><string>NSApplication</string>
-  <key>NSHumanReadableCopyright</key><string>本地只读消息助手 · 不发送任何消息</string>
+  <key>NSHumanReadableCopyright</key><string>微信/企微连接器 · 本地只读消息分析</string>
   <key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>
 </dict></plist>
 PLIST
@@ -98,7 +100,7 @@ STAGE="$BUILD/dmg"; mkdir -p "$STAGE"
 cp -R "$APP" "$STAGE/"; ln -s /Applications "$STAGE/Applications"
 hdiutil create -quiet -volname "$APP_NAME" -srcfolder "$STAGE" -ov -format UDZO "$DIST/$APP_NAME.dmg"
 # ASCII-named release artifact
-cp "$DIST/$APP_NAME.dmg" "$DIST/WeChatDesk-v${VERSION}.dmg"
+cp "$DIST/$APP_NAME.dmg" "$DIST/WeChatWeComConnector-v${VERSION}.dmg"
 echo "==> done: $APP"
 echo "    $DIST/$APP_NAME.dmg"
-echo "    $DIST/WeChatDesk-v${VERSION}.dmg"
+echo "    $DIST/WeChatWeComConnector-v${VERSION}.dmg"
